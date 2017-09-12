@@ -3,9 +3,14 @@ import Message from './Message.jsx'
 
 class MessageList extends React.Component {
   render() {
+
+    const messages = this.props.messages.map(( message ) => {
+      return <Message key={message.id} messages={message} />
+    })
+
     return (
       <div>
-        <Message />
+        {messages}
       </div>
     )
   }
