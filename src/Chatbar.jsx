@@ -7,6 +7,9 @@ class Chatbar extends React.Component {
         <input
           className="chatbar-username"
           defaultValue={ this.props.name }
+          onBlur={ (event) => {
+            this.props.addName(event.target.value)
+          }}
         />
         <input
           className="chatbar-message"

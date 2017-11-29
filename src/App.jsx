@@ -7,7 +7,7 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      currentUser: { name: "Bob" },
+      currentUser: "Anonymous",
       messages: []
     }
   }
@@ -21,15 +21,22 @@ class App extends React.Component {
     }
 
     ws.onmessage = (message) => {
+      console.log(message);
       this.setState(
         { messages: this.state.messages.concat(JSON.parse(message.data)) }
       )
     }
   }
 
+  addName(username) {
+    this.setState(
+      { currentUser: username }
+    )
+  }
+
   addMessage(content) {
     const newMessage = {
-      username: this.state.currentUser.name,
+      username: this.state.currentUser,
       content : content
     }
     this.ws.send(JSON.stringify(newMessage))
@@ -43,8 +50,9 @@ class App extends React.Component {
           messages={ this.state.messages }
         />
         <Chatbar
-          name={ this.state.currentUser.name }
+          name={ this.state.currentUser }
           addMessage={ this.addMessage.bind(this) }
+          addName={ this.addName.bind(this) }
         />
       </div>
     )

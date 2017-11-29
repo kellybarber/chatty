@@ -2,7 +2,6 @@
 const express      = require('express')
 const WebSocket    = require('ws')
 const uuid         = require('uuid/v4')
-const id           = uuid()
 
 const PORT   = 3001
 const server = express()
@@ -25,7 +24,7 @@ wss.on('connection', (ws) => {
 
   ws.on('message', (message) => {
     let receivedMessage = JSON.parse(message)
-    receivedMessage.id  = id
+    receivedMessage.id  = uuid()
 
     wss.broadcast(JSON.stringify(receivedMessage))
   })
