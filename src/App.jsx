@@ -19,6 +19,12 @@ class App extends React.Component {
     ws.onopen = (event) => {
       console.log('Connection Created')
     }
+
+    ws.onmessage = (message) => {
+      this.setState(
+        { messages: this.state.messages.concat(JSON.parse(message.data)) }
+      )
+    }
   }
 
   addMessage(content) {
@@ -27,14 +33,9 @@ class App extends React.Component {
       content : content
     }
     this.ws.send(JSON.stringify(newMessage))
-    const messages = this.state.messages.concat(newMessage)
-    this.setState(
-      { messages: messages }
-    )
   }
 
   render() {
-
     return (
       <div>
         <Navbar />
