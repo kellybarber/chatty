@@ -23,10 +23,20 @@ wss.on('connection', (ws) => {
   console.log('Client connected')
 
   ws.on('message', (message) => {
-    let receivedMessage = JSON.parse(message)
-    receivedMessage.id  = uuid()
+    let newMessage = JSON.parse(message)
 
-    wss.broadcast(JSON.stringify(receivedMessage))
+    if (newMessage.type === 'postMessage') {
+      newMessage.id   = uuid()
+      newMessage.type = 'incomingMessage'
+
+      wss.broadcast(JSON.stringify(newMessage))
+    }
+
+    if (newMessage.type === 'postNotification') {
+      newMessage.type = 'incomingNotification'
+
+      wss.broadcast(JSON.stringify(newMessage))
+    }
   })
 
   ws.on('close', () => console.log('Client disconnected'))
