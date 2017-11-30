@@ -7,8 +7,9 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      counter     : 0,
       currentUser : "Anonymous",
-      messages    : [],
+      messages    : []
     }
   }
 
@@ -23,9 +24,13 @@ class App extends React.Component {
     ws.onmessage = (message) => {
       const newMessage = JSON.parse(message.data)
 
-      this.setState(
-        { messages: this.state.messages.concat(newMessage) }
-      )
+      if (newMessage.type === 'counter') {
+        this.setState({ counter: newMessage.userCount })
+      }
+      
+      if (newMessage.type === 'incomingMessage' || newMessage.type === 'incomingNotification') {
+        this.setState({ messages: this.state.messages.concat(newMessage) })
+      }
     }
   }
 

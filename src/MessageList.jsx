@@ -10,7 +10,7 @@ class MessageList extends React.Component {
         return <Message key={message.id} messages={message} />
       }
       if (message.type === 'incomingNotification') {
-        return <Notification notification={message} />
+        return <Notification key={message.id} notification={message} />
       }
     })
 
