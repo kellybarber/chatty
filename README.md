@@ -10,7 +10,7 @@ Concepts include:
 
 ### Screenshot
 
-![ScreenShot](https://ibb.co/i2cCNw) 
+![ScreenShot]([url=https://ibb.co/i2cCNw][img]https://preview.ibb.co/dcYmhw/Screen_Shot_2017_11_30_at_6_49_56_AM.png[/img][/url]) 
 
 ### Boilerplate Source Code
 
