@@ -7,7 +7,7 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      counter     : 0,
+      userCounter : 0,
       currentUser : "Anonymous",
       messages    : []
     }
@@ -25,9 +25,9 @@ class App extends React.Component {
       const newMessage = JSON.parse(message.data)
 
       if (newMessage.type === 'counter') {
-        this.setState({ counter: newMessage.userCount })
+        this.setState({ userCounter: newMessage.userCount })
       }
-      
+
       if (newMessage.type === 'incomingMessage' || newMessage.type === 'incomingNotification') {
         this.setState({ messages: this.state.messages.concat(newMessage) })
       }
@@ -59,7 +59,9 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Navbar />
+        <Navbar
+          users={this.state.userCounter}
+        />
         <MessageList
           messages={ this.state.messages }
           notification={ this.state.notification }
