@@ -7,8 +7,8 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      currentUser: "Anonymous",
-      messages: []
+      currentUser : "Anonymous",
+      messages    : [],
     }
   }
 
@@ -21,23 +21,32 @@ class App extends React.Component {
     }
 
     ws.onmessage = (message) => {
-      console.log(message);
+      const newMessage = JSON.parse(message.data)
+
       this.setState(
-        { messages: this.state.messages.concat(JSON.parse(message.data)) }
+        { messages: this.state.messages.concat(newMessage) }
       )
     }
   }
 
   addName(username) {
-    this.setState(
-      { currentUser: username }
-    )
+    if (this.state.currentUser !== username) {
+      const newNotification = {
+        content: `${this.state.currentUser} has changed their name to ${username}`,
+        type   : 'postNotification'
+      }
+      this.ws.send(JSON.stringify(newNotification))
+      this.setState(
+        { currentUser: username }
+      )
+    }
   }
 
   addMessage(content) {
     const newMessage = {
       username: this.state.currentUser,
-      content : content
+      content : content,
+      type    : 'postMessage'
     }
     this.ws.send(JSON.stringify(newMessage))
   }
@@ -48,6 +57,7 @@ class App extends React.Component {
         <Navbar />
         <MessageList
           messages={ this.state.messages }
+          notification={ this.state.notification }
         />
         <Chatbar
           name={ this.state.currentUser }
